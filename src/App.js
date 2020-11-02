@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { ThemeProvider } from "theme-ui";
 import { theme } from "./theme";
 
-import { Input, Textarea, Box } from "theme-ui";
+import { Textarea, Box } from "theme-ui";
 
 import {
   FileInput,

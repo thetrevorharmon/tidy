@@ -17,8 +17,9 @@ export function FileInput({
       const [file] = fileRef.current.files;
 
       if (file != null && file.name != null) {
+        const filePath = file.path != null ? file.path : file.name;
         setMediaSrc(URL.createObjectURL(file));
-        onChange(file.name);
+        onChange(filePath);
       }
     }
   }

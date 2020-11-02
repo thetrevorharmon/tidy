@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 import { Input } from "theme-ui";
 

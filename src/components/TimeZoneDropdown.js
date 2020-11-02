@@ -1,13 +1,11 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import React, { useRef, useState } from "react";
+import { useRef } from "react";
 
 import { Select } from "theme-ui";
 
-// const googleMapsCoordinatesUrlMatcher = /https\:\/\/www.google.com\/maps\/.*\/\@([0-9\-\.]+),([0-9\-\.]+).*/;
-
-export function TimeZoneDropdown({ onChange }) {
+export function TimeZoneDropdown() {
   const timeZoneSelectRef = useRef();
 
   const options = [

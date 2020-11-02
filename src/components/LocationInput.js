@@ -1,11 +1,11 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import React, { useRef, useState } from "react";
+import { useRef } from "react";
 
 import { Input, Link, Box } from "theme-ui";
 
-const googleMapsCoordinatesUrlMatcher = /https\:\/\/www.google.com\/maps\/.*\/\@([0-9\-\.]+),([0-9\-\.]+).*/;
+const googleMapsCoordinatesUrlMatcher = /https:\/\/www.google.com\/maps\/.*\/@([0-9\-.]+),([0-9\-.]+).*/;
 
 export function LocationInput({ onChange }) {
   const mapsLinkRef = useRef();
