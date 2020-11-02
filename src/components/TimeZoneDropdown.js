@@ -5,33 +5,39 @@ import { useRef } from "react";
 
 import { Select } from "theme-ui";
 
-export function TimeZoneDropdown() {
+export function TimeZoneDropdown({ onChange }) {
   const timeZoneSelectRef = useRef();
 
   const options = [
     {
-      value: -8,
-      label: "(GMT-08:00) Pacific Time (US & Canada)",
+      value: "-08:00",
+      label: "Pacific Time (GMT-08:00) ",
     },
     {
-      value: -7,
-      label: "(GMT-07:00) Mountain Time (US & Canada)",
+      value: "-07:00",
+      label: "Mountain Time (GMT-07:00) ",
     },
     {
-      value: -6,
-      label: "(GMT-06:00) Central Time (US & Canada)",
+      value: "-06:00",
+      label: "Central Time (GMT-06:00) ",
     },
     {
-      value: -5,
-      label: "(GMT-05:00) Eastern Time (US & Canada)",
+      value: "-05:00",
+      label: "Eastern Time (GMT-05:00) ",
     },
   ];
+
+  function handleChange() {
+    if (timeZoneSelectRef.current != null) {
+      onChange(timeZoneSelectRef.current.value);
+    }
+  }
 
   return (
     <Select
       name="timeZone"
       ref={timeZoneSelectRef}
-      onChange={() => console.log(timeZoneSelectRef.current.value)}
+      onChange={handleChange}
       defaultValue={0}
     >
       {options.map((option) => (

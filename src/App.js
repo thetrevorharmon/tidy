@@ -8,6 +8,7 @@ import { Textarea, Box } from "theme-ui";
 import {
   FileInput,
   DateInput,
+  TimeInput,
   LocationInput,
   TimeZoneDropdown,
 } from "./components";
@@ -15,14 +16,22 @@ import {
 export default function App() {
   const [fileName, setFileName] = useState();
   const [date, setDate] = useState();
+  const [time, setTime] = useState();
+  const [timeZone, setTimeZone] = useState();
   const [coordinates, setCoordinates] = useState();
   const [command, setCommand] = useState("");
 
   useEffect(() => {
-    if (fileName != null && date != null && coordinates != null) {
+    if (
+      fileName != null &&
+      date != null &&
+      time != null &&
+      timeZone != null &&
+      coordinates != null
+    ) {
       const coordinatesString = `${coordinates.lat}, ${coordinates.lng}`;
 
-      const dateString = formatDateString(date);
+      const dateString = formatDateString(date, time, timeZone);
 
       const timestamp = [
         `"-datetimeoriginal=${dateString}"`,
@@ -48,24 +57,15 @@ export default function App() {
 
       setCommand(bashCommand);
     }
-  }, [fileName, date, coordinates, command, setCommand]);
+  }, [fileName, date, time, timeZone, coordinates, command, setCommand]);
 
-  function formatDateString(currentDate) {
-    if (currentDate == null) {
+  function formatDateString(currentDate, currentTime, currentTimeZone) {
+    if (!currentDate || !currentTime || !currentTimeZone) {
       return;
     }
 
-    const timeZone = `-07:00`;
-    const [dateWithDashes, timeWithTimezone] = currentDate
-      .toISOString()
-      .split("T");
-    const [time] = timeWithTimezone.split(".");
-
-    console.log(dateWithDashes, time);
-
-    const date = dateWithDashes.replace(/-/g, ":");
-
-    const preparedString = `${date} ${time}${timeZone}`;
+    const formattedDate = currentDate.replace(/-/g, ":");
+    const preparedString = `${formattedDate} ${currentTime}:00${currentTimeZone}`;
 
     return preparedString;
   }
@@ -81,11 +81,14 @@ export default function App() {
         <h2>When was this taken?</h2>
         <DateInput onChange={setDate} />
 
-        <h2>Where was this taken?</h2>
-        <LocationInput onChange={setCoordinates} />
+        <h2>What time of day was this taken?</h2>
+        <TimeInput onChange={setTime} />
 
         <h2>What timezone was this taken in?</h2>
-        <TimeZoneDropdown />
+        <TimeZoneDropdown onChange={setTimeZone} />
+
+        <h2>Where was this taken?</h2>
+        <LocationInput onChange={setCoordinates} />
 
         {fileName && date && coordinates && (
           <Box>
@@ -102,7 +105,7 @@ export default function App() {
               <b>Name:</b> {fileName}
             </li>
             <li>
-              <b>Date:</b> {formatDateString(date)}
+              <b>Date:</b> {formatDateString(date, time, timeZone)}
             </li>
             <li>
               <b>Coordinates:</b> {coordinates?.lat}, {coordinates?.lng}

@@ -5,13 +5,13 @@ import { useRef } from "react";
 
 import { Input } from "theme-ui";
 
-export function DateInput({ onChange }) {
-  const dateRef = useRef();
+export function TimeInput({ onChange }) {
+  const timeRef = useRef();
 
   function handleChange() {
-    if (dateRef.current != null) {
+    if (timeRef.current != null) {
       try {
-        onChange(dateRef.current.value);
+        onChange(timeRef.current.value);
       } catch {
         // swallow errors
       }
@@ -20,9 +20,9 @@ export function DateInput({ onChange }) {
 
   return (
     <Input
-      type="date"
-      name="date"
-      ref={dateRef}
+      type="time"
+      name="time"
+      ref={timeRef}
       onChange={handleChange}
       sx={{ my: 3 }}
     />
