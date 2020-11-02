@@ -3,11 +3,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { ThemeProvider } from "theme-ui";
 import { theme } from "./theme";
 
-import { Input, Textarea } from "theme-ui";
+import { Input, Textarea, Box } from "theme-ui";
 
-import { FileInput, DateInput } from "./components";
-
-const coordinatesRegexMatcher = /https\:\/\/www.google.com\/maps\/.*\/\@([0-9\-\.]+),([0-9\-\.]+).*/;
+import {
+  FileInput,
+  DateInput,
+  LocationInput,
+  TimeZoneDropdown,
+} from "./components";
 
 export default function App() {
   const [fileName, setFileName] = useState();
@@ -15,17 +18,16 @@ export default function App() {
   const [coordinates, setCoordinates] = useState();
   const [command, setCommand] = useState("");
 
-  const dateRef = useRef();
-  const mapsLinkRef = useRef();
-
   useEffect(() => {
     if (fileName != null && date != null && coordinates != null) {
       const coordinatesString = `${coordinates.lat}, ${coordinates.lng}`;
 
+      const dateString = formatDateString(date);
+
       const timestamp = [
-        `"-datetimeoriginal=${date}"`,
-        `"-CreationDate=${date}"`,
-        `"-CreateDate=${date}"`,
+        `"-datetimeoriginal=${dateString}"`,
+        `"-CreationDate=${dateString}"`,
+        `"-CreateDate=${dateString}"`,
       ];
 
       const gpsInformation = [
@@ -48,51 +50,59 @@ export default function App() {
     }
   }, [fileName, date, coordinates, command, setCommand]);
 
-  function handleDateChange() {
-    if (dateRef.current != null) {
-      setDate(dateRef.current.value);
+  function formatDateString(currentDate) {
+    if (currentDate == null) {
+      return;
     }
-  }
 
-  function handleMapsLinkChange() {
-    if (mapsLinkRef.current != null) {
-      const link = mapsLinkRef.current.value;
-      const matches = link.match(coordinatesRegexMatcher);
-      if (matches != null && matches.length === 3) {
-        const [, lat, lng] = matches;
-        setCoordinates({ lat, lng });
-      }
-    }
+    const timeZone = `-07:00`;
+    const [dateWithDashes, timeWithTimezone] = currentDate
+      .toISOString()
+      .split("T");
+    const [time] = timeWithTimezone.split(".");
+
+    console.log(dateWithDashes, time);
+
+    const date = dateWithDashes.replace(/-/g, ":");
+
+    const preparedString = `${date} ${time}${timeZone}`;
+
+    return preparedString;
   }
 
   return (
     <ThemeProvider theme={theme}>
       <div style={{ margin: 30 }}>
         <h1>Tidy 🧹</h1>
+
         <h2>Choose a file</h2>
         <FileInput onChange={setFileName} />
+
         <h2>When was this taken?</h2>
         <DateInput onChange={setDate} />
+
         <h2>Where was this taken?</h2>
-        <a href="http://maps.google.com" target="_blank">
-          Lookup address
-        </a>
-        <Input
-          type="text"
-          ref={mapsLinkRef}
-          onChange={handleMapsLinkChange}
-          placeholder="google maps link here"
-        />
+        <LocationInput onChange={setCoordinates} />
+
+        <h2>What timezone was this taken in?</h2>
+        <TimeZoneDropdown />
+
         {fileName && date && coordinates && (
-          <Textarea value={command} readonly />
+          <Box>
+            <h2>
+              Your <code>exiftool</code> command:
+            </h2>
+            <Textarea value={command} readonly />
+          </Box>
         )}
+
         <p>
           <ul>
             <li>
               <b>Name:</b> {fileName}
             </li>
             <li>
-              <b>Date:</b> {JSON.stringify(date)}
+              <b>Date:</b> {formatDateString(date)}
             </li>
             <li>
               <b>Coordinates:</b> {coordinates?.lat}, {coordinates?.lng}

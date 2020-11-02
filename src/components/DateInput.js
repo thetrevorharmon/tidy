@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 
 import { Input } from "theme-ui";
 
-export function DateInput({ initialValue, onChange }) {
+export function DateInput({ onChange }) {
   const dateRef = useRef();
 
   function handleChange() {
@@ -24,7 +24,6 @@ export function DateInput({ initialValue, onChange }) {
       type="datetime-local"
       name="date"
       ref={dateRef}
-      value={initialValue}
       onChange={handleChange}
       sx={{ my: 3 }}
     />

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Label,
+  Box,
   Input,
   Select,
   Textarea,
@@ -102,7 +103,12 @@ export function Form() {
         onChange={handleMapsLinkChange}
         placeholder="google maps link here"
       />
-      {fileName && date && coordinates && <Textarea value={command} readonly />}
+      {fileName && date && coordinates && (
+        <Box>
+          <h2>Your command</h2>
+          <Textarea value={command} readonly />
+        </Box>
+      )}
       <p>
         <ul>
           <li>
