@@ -1,13 +1,10 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { useRef } from "react";
 
 import { Select, Label, Box } from "theme-ui";
 
-export function TimeZoneDropdown({ onChange }) {
-  const timeZoneSelectRef = useRef();
-
+export function TimeZoneDropdown({ value, onChange }) {
   const options = [
     {
       value: "-08:00",
@@ -27,20 +24,13 @@ export function TimeZoneDropdown({ onChange }) {
     },
   ];
 
-  function handleChange() {
-    if (timeZoneSelectRef.current != null) {
-      onChange(timeZoneSelectRef.current.value);
-    }
-  }
-
   return (
     <Box>
       <Label htmlFor="timeZone">Timezone</Label>
       <Select
         name="timeZone"
-        ref={timeZoneSelectRef}
-        onChange={handleChange}
-        defaultValue={0}
+        onChange={(event) => onChange(event.target.value)}
+        value={value}
         sx={{ mt: 2, mb: 3 }}
       >
         {options.map((option) => (

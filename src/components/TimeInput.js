@@ -5,7 +5,7 @@ import { useRef } from "react";
 
 import { Input, Label, Box } from "theme-ui";
 
-export function TimeInput({ onChange }) {
+export function TimeInput({ value, onChange }) {
   const timeRef = useRef();
 
   function handleChange() {
@@ -21,7 +21,12 @@ export function TimeInput({ onChange }) {
   return (
     <Box>
       <Label htmlFor="date">Time</Label>
-      <Input type="time" name="time" ref={timeRef} onChange={handleChange} />
+      <Input
+        type="time"
+        name="time"
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+      />
     </Box>
   );
 }

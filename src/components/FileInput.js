@@ -39,7 +39,7 @@ export function FileInput({
     name: "file",
     id: "file",
     type: "file",
-    multiple: "false",
+    multiple: false,
     ref: fileRef,
     acceptedFileTypes,
   };
