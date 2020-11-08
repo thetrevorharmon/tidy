@@ -3,6 +3,7 @@ import {
   GoogleMap,
   LoadScript,
   StandaloneSearchBox,
+  Marker,
 } from "@react-google-maps/api";
 
 const containerStyle = {
@@ -16,7 +17,15 @@ const center = {
 };
 
 function Map() {
-  const [, setMap] = React.useState(null);
+  const mapRef = React.useRef();
+
+  const [map, setMap] = React.useState(null);
+  const [markers, setMarkers] = React.useState([
+    {
+      lat: 40.3258589,
+      lng: -111.7019145,
+    },
+  ]);
 
   const onLoad = React.useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
@@ -27,6 +36,13 @@ function Map() {
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null);
   }, []);
+
+  function updateBounds(bounds) {
+    map.fitBounds(bounds);
+    setMap(map);
+  }
+
+  function updateMarkers(markers) {}
 
   const inputStyle = {
     boxSizing: `border-box`,
@@ -44,25 +60,35 @@ function Map() {
     right: "10px",
   };
 
+  function onPlacesChanged() {
+    const [place] = this.getPlaces();
+
+    updateBounds(place.geometry.viewport);
+  }
+
   return (
     <LoadScript
       libraries={["places"]}
       googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
     >
       <GoogleMap
+        mapRef={mapRef}
         mapContainerStyle={containerStyle}
         center={center}
         zoom={15}
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
-        <StandaloneSearchBox>
+        <StandaloneSearchBox onPlacesChanged={onPlacesChanged}>
           <input
             type="text"
-            // placeholder="Customized your placeholder"
+            placeholder="Enter a nearby address"
             style={inputStyle}
           />
         </StandaloneSearchBox>
+
+        {map != null &&
+          markers.map((position) => <Marker position={position} />)}
       </GoogleMap>
     </LoadScript>
   );

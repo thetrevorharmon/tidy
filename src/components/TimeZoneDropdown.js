@@ -34,7 +34,7 @@ export function TimeZoneDropdown({ value, onChange }) {
         sx={{ mt: 2, mb: 3 }}
       >
         {options.map((option) => (
-          <option value={option.value} id={options.label}>
+          <option key={option.label} value={option.value} id={options.label}>
             {option.label}
           </option>
         ))}
