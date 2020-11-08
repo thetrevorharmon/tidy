@@ -23,6 +23,16 @@ export const theme = {
     body: 1.5,
     heading: 1.125,
   },
+  forms: {
+    label: {
+      fontSize: 2,
+      fontWeight: "bold",
+    },
+    input: {
+      mt: 2,
+      mb: 3,
+    },
+  },
   colors: {
     text: "#000",
     background: "#fff",

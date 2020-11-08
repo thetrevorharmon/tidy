@@ -3,7 +3,7 @@
 import { jsx } from "theme-ui";
 import { useRef } from "react";
 
-import { Input } from "theme-ui";
+import { Input, Label, Box } from "theme-ui";
 
 export function DateInput({ onChange }) {
   const dateRef = useRef();
@@ -19,12 +19,9 @@ export function DateInput({ onChange }) {
   }
 
   return (
-    <Input
-      type="date"
-      name="date"
-      ref={dateRef}
-      onChange={handleChange}
-      sx={{ my: 3 }}
-    />
+    <Box>
+      <Label htmlFor="date">Date</Label>
+      <Input type="date" name="date" ref={dateRef} onChange={handleChange} />
+    </Box>
   );
 }

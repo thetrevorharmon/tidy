@@ -3,7 +3,7 @@
 import { jsx } from "theme-ui";
 import { useRef } from "react";
 
-import { Select } from "theme-ui";
+import { Select, Label, Box } from "theme-ui";
 
 export function TimeZoneDropdown({ onChange }) {
   const timeZoneSelectRef = useRef();
@@ -34,17 +34,21 @@ export function TimeZoneDropdown({ onChange }) {
   }
 
   return (
-    <Select
-      name="timeZone"
-      ref={timeZoneSelectRef}
-      onChange={handleChange}
-      defaultValue={0}
-    >
-      {options.map((option) => (
-        <option value={option.value} id={options.label}>
-          {option.label}
-        </option>
-      ))}
-    </Select>
+    <Box>
+      <Label htmlFor="timeZone">Timezone</Label>
+      <Select
+        name="timeZone"
+        ref={timeZoneSelectRef}
+        onChange={handleChange}
+        defaultValue={0}
+        sx={{ mt: 2, mb: 3 }}
+      >
+        {options.map((option) => (
+          <option value={option.value} id={options.label}>
+            {option.label}
+          </option>
+        ))}
+      </Select>
+    </Box>
   );
 }

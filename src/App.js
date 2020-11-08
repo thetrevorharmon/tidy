@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "theme-ui";
 import { theme } from "./theme";
 
-import { Textarea, Box } from "theme-ui";
+import { Textarea, Box, Grid } from "theme-ui";
 
 import {
   FileInput,
@@ -79,13 +79,11 @@ export default function App() {
         <FileInput onChange={setFileName} />
 
         <h2>When was this taken?</h2>
-        <DateInput onChange={setDate} />
-
-        <h2>What time of day was this taken?</h2>
-        <TimeInput onChange={setTime} />
-
-        <h2>What timezone was this taken in?</h2>
-        <TimeZoneDropdown onChange={setTimeZone} />
+        <Grid gap={3} columns={[3, "1fr 1fr 1fr"]}>
+          <DateInput onChange={setDate} />
+          <TimeInput onChange={setTime} />
+          <TimeZoneDropdown onChange={setTimeZone} />
+        </Grid>
 
         <h2>Where was this taken?</h2>
         <LocationInput onChange={setCoordinates} />
