@@ -11,6 +11,7 @@ import {
   TimeInput,
   LocationInput,
   TimeZoneDropdown,
+  Map,
 } from "./components";
 
 const existingDateInformation = /([0-9]{4}-[0-9]{2}-[0-9]{2})/;
@@ -118,7 +119,9 @@ export default function App() {
           </Box>
         )}
 
-        <p>
+        <Map />
+
+        <div>
           <ul>
             <li>
               <b>Name:</b> {fileName}
@@ -130,7 +133,7 @@ export default function App() {
               <b>Coordinates:</b> {coordinates?.lat}, {coordinates?.lng}
             </li>
           </ul>
-        </p>
+        </div>
       </div>
     </ThemeProvider>
   );
