@@ -114,7 +114,7 @@ export default function App() {
             <h2>
               Your <code>exiftool</code> command:
             </h2>
-            <Textarea value={command} readonly />
+            <Textarea value={command} readonly sx={{ minHeight: 180 }} />
           </Box>
         )}
 
