@@ -110,16 +110,16 @@ export default function App() {
         <h2>Where was this taken?</h2>
         <LocationInput onChange={setCoordinates} />
 
-        {fileName && date && coordinates && (
+        <Map onChange={setCoordinates} />
+
+        {command && (
           <Box>
             <h2>
               Your <code>exiftool</code> command:
             </h2>
-            <Textarea value={command} readonly sx={{ minHeight: 180 }} />
+            <Textarea defaultValue={command} readonly sx={{ minHeight: 180 }} />
           </Box>
         )}
-
-        <Map />
 
         <div>
           <ul>
