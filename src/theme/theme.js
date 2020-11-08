@@ -23,6 +23,13 @@ export const theme = {
     body: 1.5,
     heading: 1.125,
   },
+  buttons: {
+    primary: {
+      "&:hover": {
+        cursor: "pointer",
+      },
+    },
+  },
   forms: {
     label: {
       fontSize: 2,

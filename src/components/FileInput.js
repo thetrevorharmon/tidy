@@ -1,100 +1,113 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback } from "react";
+import { useDropzone } from "react-dropzone";
 
-import { Input, Box, Text, Label } from "theme-ui";
+import { Input, Box, Text, Button } from "theme-ui";
 
 export function FileInput({
   acceptedFileTypes = ".mov,.mp4,.jpg,.jpeg,.png",
   onChange,
 }) {
-  const [isDragging, setIsDragging] = useState(false);
   const [mediaSrc, setMediaSrc] = useState(null);
   const fileRef = useRef();
 
-  function handleChange() {
-    console.log("dropped");
-    if (fileRef.current != null && fileRef.current.files.length > 0) {
-      const [file] = fileRef.current.files;
+  const onFileChange = useCallback(
+    (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        const [file] = acceptedFiles;
 
-      if (file != null && file.name != null) {
-        const filePath = file.path != null ? file.path : file.name;
-        setMediaSrc(URL.createObjectURL(file));
-        onChange(filePath);
+        if (file != null && file.name != null) {
+          const filePath = file.path != null ? file.path : file.name;
+          setMediaSrc(URL.createObjectURL(file));
+          onChange(filePath);
+        }
       }
-    }
-  }
+    },
+    [onChange, setMediaSrc]
+  );
 
-  function dragEnter(event) {
-    console.log("dragEnter");
-    setIsDragging(true);
-  }
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: onFileChange,
+  });
 
-  function dragLeave(event) {
-    console.log("dragLeave");
-    setIsDragging(false);
+  const rootProps = { ...getRootProps() };
+
+  const inputProps = {
+    ...getInputProps(),
+    name: "file",
+    id: "file",
+    type: "file",
+    multiple: "false",
+    ref: fileRef,
+  };
+
+  function clearSelection() {
+    setMediaSrc(null);
+    onChange(null);
   }
 
   return (
-    <Label
-      htmlFor="file"
-      // onDragEnter={dragEnter}
-      // onDragLeave={dragLeave}
+    <Box
+      {...rootProps}
       sx={{
-        display: "block",
-        py: 5,
-        my: 3,
-        position: "relative",
         borderWidth: "1px",
-        borderStyle: isDragging ? "dashed" : "solid",
+        borderStyle: isDragActive ? "dashed" : "solid",
         borderRadius: "4px",
-        background: "yellow",
+        py: mediaSrc != null ? 0 : 5,
+        overflow: "hidden",
+        position: "relative",
       }}
     >
-      <Text
-        sx={{
-          textAlign: "center",
-          fontSize: 3,
-          fontWeight: "bold",
-          zIndex: 0,
-          position: "relative",
-          background: "white",
-        }}
-      >
-        Drag a video or image here
-      </Text>
-      <Input
-        id="file"
-        type="file"
-        name="file"
-        ref={fileRef}
-        onChange={handleChange}
-        multiple={false}
-        accept={acceptedFileTypes}
-        sx={
-          {
-            // textIndent: "-9999px",
-            // border: "none",
-            // background: "blue",
-            // position: "absolute",
-            // top: 0,
-            // left: 0,
-            // right: 0,
-            // bottom: 0,
-            // margin: 0,
-            // padding: 0,
-            // borderRadius: 0,
-            // visibility: "hidden",
-            // zIndex: 0,
-          }
-        }
-      />
-      {mediaSrc && (
-        <video width="320" height="240" autoPlay loop muted>
+      {mediaSrc == null ? (
+        <Text
+          sx={{
+            textAlign: "center",
+            fontSize: 2,
+            fontWeight: "bold",
+            zIndex: 0,
+            position: "relative",
+            background: "white",
+          }}
+        >
+          {isDragActive ? (
+            <p>Drop the files here ...</p>
+          ) : (
+            <p>Drag a video or image here</p>
+          )}
+        </Text>
+      ) : null}
+
+      <Input {...inputProps} sx={{ p: 0, mt: 0, mb: 0 }} />
+
+      {mediaSrc != null ? (
+        <video
+          style={{ objectFit: "cover" }}
+          width="100%"
+          height="320"
+          autoPlay
+          loop
+          muted
+          sx={{ m: 0, p: 0, mb: -2 }}
+        >
           <source src={mediaSrc} type="video/mp4" />
         </video>
-      )}
-    </Label>
+      ) : null}
+
+      {mediaSrc != null ? (
+        <Button
+          onClick={clearSelection}
+          sx={{
+            position: "absolute",
+            zIndex: 3,
+            bottom: 2,
+            right: 2,
+          }}
+        >
+          Clear
+        </Button>
+      ) : null}
+    </Box>
   );
 }
