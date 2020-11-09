@@ -61,3 +61,23 @@ export function prepareExifToolCommand({
 
   return command;
 }
+
+export async function executeCommand(command) {
+  return new Promise((resolve, reject) => {
+    if (!window || !window.exec) {
+      reject("You don't have a way to trigger a command");
+    }
+
+    return window.exec(command, (error, stdout, stderr) => {
+      if (error) {
+        reject(error);
+      }
+      if (stderr) {
+        reject(stderr);
+      }
+      if (stdout) {
+        resolve(stdout);
+      }
+    });
+  });
+}

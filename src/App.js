@@ -3,13 +3,12 @@ import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "theme-ui";
 import { theme } from "./theme";
 
-import { Textarea, Box, Grid } from "theme-ui";
+import { Box, Grid, Button } from "theme-ui";
 
 import {
   existingDateInformation,
   hasGoogleMapsKey,
-  formatDateStringForExiftool,
-  isElectron,
+  executeCommand,
   prepareExifToolCommand,
 } from "./utilities";
 
@@ -30,7 +29,7 @@ export default function App() {
   const [time, setTime] = useState("12:00");
   const [timeZone, setTimeZone] = useState("-07:00");
   const [coordinates, setCoordinates] = useState();
-  const [command, setCommand] = useState("ls -la");
+  const [command, setCommand] = useState("");
 
   useEffect(() => {
     if (
@@ -50,16 +49,12 @@ export default function App() {
 
       setCommand(newCommand);
     }
-  }, [
-    fileName,
-    date,
-    time,
-    timeZone,
-    coordinates,
-    command,
-    setCommand,
-    prepareExifToolCommand,
-  ]);
+  }, [fileName, date, time, timeZone, coordinates, command, setCommand]);
+
+  async function runCommand() {
+    const response = await executeCommand("ls -la");
+    console.log(response);
+  }
 
   function handleFileNameChange(fileNameOrPath) {
     if (fileNameOrPath == null) {
@@ -110,7 +105,9 @@ export default function App() {
           </Box>
         )}
 
-        <div>
+        <Button onClick={runCommand}>Clicky</Button>
+
+        {/* <div>
           <ul>
             <li>
               <b>Name:</b> {fileName}
@@ -122,7 +119,7 @@ export default function App() {
               <b>Coordinates:</b> {coordinates?.lat}, {coordinates?.lng}
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </ThemeProvider>
   );
