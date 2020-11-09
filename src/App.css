@@ -1,0 +1,9 @@
+html {
+  height: 100%;
+}
+
+body,
+#root,
+.App {
+  min-height: 100%;
+}

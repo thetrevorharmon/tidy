@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "theme-ui";
 import { theme } from "./theme";
 
-import { Box, Grid } from "theme-ui";
+import { Box, Grid, Flex } from "theme-ui";
 
 import {
   existingDateInformation,
@@ -21,6 +21,8 @@ import {
   Map,
   CommandBox,
 } from "./components";
+
+import "./App.css";
 
 export default function App() {
   const [fileName, setFileName] = useState();
@@ -71,35 +73,46 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div style={{ margin: 30 }}>
-        <h1>Tidy 🧹</h1>
+      <Flex sx={{ maxHeight: "100%", overflow: "hidden" }}>
+        <Box
+          sx={{
+            flex: "1 1 auto",
+            mr: 4,
+            maxHeight: "100%",
+            overflow: "hidden",
+          }}
+        >
+          <FileInput onChange={handleFileNameChange} />
+        </Box>
+        <Box sx={{ width: "500px", maxHeight: "100%", overflow: "hidden" }}>
+          <Box sx={{ overflow: "scroll" }}>
+            <h1>Tidy 🧹</h1>
 
-        <h2>Choose a file</h2>
-        <FileInput onChange={handleFileNameChange} />
+            <h2>When was this taken?</h2>
+            <Grid gap={3} columns={[3, "1fr 1fr 1.2fr"]}>
+              <DateInput value={date} onChange={setDate} />
+              <TimeInput value={time} onChange={setTime} />
+              <TimeZoneDropdown value={timeZone} onChange={setTimeZone} />
+            </Grid>
 
-        <h2>When was this taken?</h2>
-        <Grid gap={3} columns={[3, "1fr 1fr 1.2fr"]}>
-          <DateInput value={date} onChange={setDate} />
-          <TimeInput value={time} onChange={setTime} />
-          <TimeZoneDropdown value={timeZone} onChange={setTimeZone} />
-        </Grid>
+            <h2>Where was this taken?</h2>
+            {isElectron && hasGoogleMapsKey ? (
+              <Map onChange={setCoordinates} />
+            ) : (
+              <LocationInput onChange={setCoordinates} />
+            )}
 
-        <h2>Where was this taken?</h2>
-        {isElectron && hasGoogleMapsKey ? (
-          <Map onChange={setCoordinates} />
-        ) : (
-          <LocationInput onChange={setCoordinates} />
-        )}
-
-        {command && (
-          <Box>
-            <h2>
-              Your <code>exiftool</code> command:
-            </h2>
-            <CommandBox command={command} />
+            {command && (
+              <Box>
+                <h2>
+                  Your <code>exiftool</code> command:
+                </h2>
+                <CommandBox command={command} />
+              </Box>
+            )}
           </Box>
-        )}
-      </div>
+        </Box>
+      </Flex>
     </ThemeProvider>
   );
 }

@@ -73,7 +73,7 @@ export function FileInput({
       <video
         style={{ objectFit: "cover" }}
         width="100%"
-        height="480"
+        height="100%"
         autoPlay
         loop
         // muted
@@ -108,6 +108,7 @@ export function FileInput({
     <Box
       {...rootProps}
       sx={{
+        height: "100%",
         overflow: "hidden",
         position: "relative",
         borderWidth: "1px",
