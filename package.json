@@ -1,9 +1,27 @@
 {
-  "name": "metadata-gui",
+  "name": "tidy",
+  "productName": "Tidy",
   "version": "0.1.0",
   "private": true,
   "homepage": "./",
   "main": "./electron/main.js",
+  "mac": {
+    "icon": "./public/cleaner.icns",
+    "category": "public.app-category.utilities"
+  },
+  "win": {
+    "icon": "./public/cleaner.png" 
+  },
+  "files": [
+    "./build/**/*",
+    "./dist/**/*",
+    "./node_modules/**/*",
+    "./public/**/*",     
+    "*.js"
+  ],
+  "directories": {
+    "buildResources": "public"
+  },
   "dependencies": {
     "@react-google-maps/api": "^1.13.0",
     "@testing-library/jest-dom": "^5.11.4",
