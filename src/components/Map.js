@@ -67,6 +67,12 @@ function Map({ onChange }) {
     onChange(position);
   }
 
+  function handleMapClick(place) {
+    const position = { lat: place.latLng.lat(), lng: place.latLng.lng() };
+    setMarkers([position]);
+    onChange(position);
+  }
+
   return (
     <LoadScript
       libraries={libraries}
@@ -78,6 +84,7 @@ function Map({ onChange }) {
         zoom={15}
         onLoad={onLoad}
         onUnmount={onUnmount}
+        onClick={handleMapClick}
       >
         <StandaloneSearchBox onPlacesChanged={onPlacesChanged}>
           <Input
@@ -85,8 +92,8 @@ function Map({ onChange }) {
             placeholder="Enter an address"
             sx={{
               position: "absolute",
-              top: 1,
-              right: 1,
+              top: "2px",
+              right: "8px",
               width: "240px",
               background: "white",
               textOverflow: "ellipses",

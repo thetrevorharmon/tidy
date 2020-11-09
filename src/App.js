@@ -6,15 +6,22 @@ import { theme } from "./theme";
 import { Textarea, Box, Grid } from "theme-ui";
 
 import {
+  existingDateInformation,
+  hasGoogleMapsKey,
+  formatDateStringForExiftool,
+  isElectron,
+  prepareExifToolCommand,
+} from "./utilities";
+
+import {
   FileInput,
   DateInput,
   TimeInput,
   LocationInput,
   TimeZoneDropdown,
   Map,
+  CommandBox,
 } from "./components";
-
-const existingDateInformation = /([0-9]{4}-[0-9]{2}-[0-9]{2})/;
 
 export default function App() {
   const [fileName, setFileName] = useState();
@@ -23,7 +30,7 @@ export default function App() {
   const [time, setTime] = useState("12:00");
   const [timeZone, setTimeZone] = useState("-07:00");
   const [coordinates, setCoordinates] = useState();
-  const [command, setCommand] = useState("");
+  const [command, setCommand] = useState("ls -la");
 
   useEffect(() => {
     if (
@@ -33,46 +40,26 @@ export default function App() {
       timeZone != null &&
       coordinates != null
     ) {
-      const coordinatesString = `${coordinates.lat}, ${coordinates.lng}`;
-
-      const dateString = formatDateString(date, time, timeZone);
-
-      const timestamp = [
-        `"-datetimeoriginal=${dateString}"`,
-        `"-CreationDate=${dateString}"`,
-        `"-CreateDate=${dateString}"`,
-      ];
-
-      const gpsInformation = [
-        `"-GPSCoordinates=${coordinatesString}"`,
-        `"-GPSCoordinates-und-US=${coordinatesString}"`,
-        `"-GPSLatitude=${coordinatesString}"`,
-        `"-GPSLongitude=${coordinatesString}"`,
-        `"-Keys:GPSCoordinates=${coordinatesString}"`,
-        `"-Keys:GPSCoordinates-und-US=${coordinatesString}"`,
-      ];
-
-      const bashCommand = [
-        "exiftool",
-        ...timestamp,
-        ...gpsInformation,
+      const newCommand = prepareExifToolCommand({
         fileName,
-      ].join(" ");
+        date,
+        time,
+        timeZone,
+        coordinates,
+      });
 
-      setCommand(bashCommand);
+      setCommand(newCommand);
     }
-  }, [fileName, date, time, timeZone, coordinates, command, setCommand]);
-
-  function formatDateString(currentDate, currentTime, currentTimeZone) {
-    if (!currentDate || !currentTime || !currentTimeZone) {
-      return;
-    }
-
-    const formattedDate = currentDate.replace(/-/g, ":");
-    const preparedString = `${formattedDate} ${currentTime}:00${currentTimeZone}`;
-
-    return preparedString;
-  }
+  }, [
+    fileName,
+    date,
+    time,
+    timeZone,
+    coordinates,
+    command,
+    setCommand,
+    prepareExifToolCommand,
+  ]);
 
   function handleFileNameChange(fileNameOrPath) {
     if (fileNameOrPath == null) {
@@ -108,16 +95,18 @@ export default function App() {
         </Grid>
 
         <h2>Where was this taken?</h2>
-        <LocationInput onChange={setCoordinates} />
-
-        <Map onChange={setCoordinates} />
+        {hasGoogleMapsKey ? (
+          <Map onChange={setCoordinates} />
+        ) : (
+          <LocationInput onChange={setCoordinates} />
+        )}
 
         {command && (
           <Box>
             <h2>
               Your <code>exiftool</code> command:
             </h2>
-            <Textarea defaultValue={command} readonly sx={{ minHeight: 180 }} />
+            <CommandBox command={command} />
           </Box>
         )}
 
@@ -127,7 +116,7 @@ export default function App() {
               <b>Name:</b> {fileName}
             </li>
             <li>
-              <b>Date:</b> {formatDateString(date, time, timeZone)}
+              <b>Date:</b> {formatDateStringForExiftool(date, time, timeZone)}
             </li>
             <li>
               <b>Coordinates:</b> {coordinates?.lat}, {coordinates?.lng}

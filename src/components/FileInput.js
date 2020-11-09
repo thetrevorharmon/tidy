@@ -73,10 +73,11 @@ export function FileInput({
       <video
         style={{ objectFit: "cover" }}
         width="100%"
-        height="320"
+        height="480"
         autoPlay
         loop
-        muted
+        // muted
+        controls
         sx={{ m: 0, p: 0, mb: -2 }}
       >
         <source src={mediaSrc ? mediaSrc.file : null} type="video/mp4" />
@@ -87,7 +88,7 @@ export function FileInput({
           flexDirection: "row",
           justifyContent: "space-between",
           position: "absolute",
-          bottom: 0,
+          top: 0,
           left: 0,
           right: 0,
           p: 2,
