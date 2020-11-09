@@ -29,6 +29,18 @@ export const theme = {
         cursor: "pointer",
       },
     },
+    daring: {
+      background: "black",
+      "&:hover": {
+        cursor: "pointer",
+      },
+    },
+    disabled: {
+      background: "gray",
+      "&:hover": {
+        cursor: "not-allowed",
+      },
+    },
   },
   forms: {
     label: {
