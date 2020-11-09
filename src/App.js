@@ -9,6 +9,7 @@ import {
   existingDateInformation,
   hasGoogleMapsKey,
   executeCommand,
+  isElectron,
   prepareExifToolCommand,
 } from "./utilities";
 
@@ -90,7 +91,7 @@ export default function App() {
         </Grid>
 
         <h2>Where was this taken?</h2>
-        {hasGoogleMapsKey ? (
+        {isElectron && hasGoogleMapsKey ? (
           <Map onChange={setCoordinates} />
         ) : (
           <LocationInput onChange={setCoordinates} />

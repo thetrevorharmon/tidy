@@ -1,20 +1,28 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { jsx } from "theme-ui";
 
 import { Box, Button } from "theme-ui";
 
 export function CommandBox({ command }) {
   const codeRef = useRef();
+  const [isClicked, setIsClicked] = useState(false);
 
   function handleClick() {
-    const el = document.createElement("textarea");
-    el.value = command;
-    document.body.appendChild(el);
-    el.select();
+    // this is basically a quick and dirty way to copy/paste a value without
+    // needing an actual DOM element to bind to
+    const textarea = document.createElement("textarea");
+    textarea.value = command;
+    document.body.appendChild(textarea);
+    textarea.select();
     document.execCommand("copy");
-    document.body.removeChild(el);
+    document.body.removeChild(textarea);
+    setIsClicked(true);
+
+    setTimeout(() => {
+      setIsClicked(false);
+    }, 1000);
   }
 
   return (
@@ -33,7 +41,7 @@ export function CommandBox({ command }) {
         sx={{ position: "absolute", bottom: 2, right: 2 }}
         onClick={handleClick}
       >
-        Copy
+        {isClicked ? "Copied!" : "Copy"}
       </Button>
     </Box>
   );
