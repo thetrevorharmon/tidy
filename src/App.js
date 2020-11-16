@@ -71,48 +71,47 @@ export default function App() {
     setFileName(fileNameOrPath);
   }
 
+  const controlPanel = (
+    <>
+      <h1>Tidy 🧹</h1>
+
+      <h2>When was this taken?</h2>
+      <Grid gap={3} columns={[3, "1fr 1fr 1.2fr"]}>
+        <DateInput value={date} onChange={setDate} />
+        <TimeInput value={time} onChange={setTime} />
+        <TimeZoneDropdown value={timeZone} onChange={setTimeZone} />
+      </Grid>
+
+      <h2>Where was this taken?</h2>
+      {isElectron && hasGoogleMapsKey ? (
+        <Map onChange={setCoordinates} />
+      ) : (
+        <LocationInput onChange={setCoordinates} />
+      )}
+
+      {command && (
+        <Box>
+          <h2>
+            Your <code>exiftool</code> command:
+          </h2>
+          <CommandBox command={command} />
+        </Box>
+      )}
+    </>
+  );
+
   return (
     <ThemeProvider theme={theme}>
-      <Flex sx={{ maxHeight: "100%", overflow: "hidden" }}>
-        <Box
-          sx={{
-            flex: "1 1 auto",
-            mr: 4,
-            maxHeight: "100%",
-            overflow: "hidden",
-          }}
-        >
-          <FileInput onChange={handleFileNameChange} />
+      <Grid
+        gap={3}
+        columns={[2, "1fr 500px"]}
+        sx={{ height: "100%", overflow: "hidden" }}
+      >
+        <FileInput onChange={handleFileNameChange} />
+        <Box sx={{ overflow: "scroll", p: 2, pr: 4, pl: 3, pb: 4 }}>
+          {controlPanel}
         </Box>
-        <Box sx={{ width: "500px", maxHeight: "100%", overflow: "hidden" }}>
-          <Box sx={{ overflow: "scroll" }}>
-            <h1>Tidy 🧹</h1>
-
-            <h2>When was this taken?</h2>
-            <Grid gap={3} columns={[3, "1fr 1fr 1.2fr"]}>
-              <DateInput value={date} onChange={setDate} />
-              <TimeInput value={time} onChange={setTime} />
-              <TimeZoneDropdown value={timeZone} onChange={setTimeZone} />
-            </Grid>
-
-            <h2>Where was this taken?</h2>
-            {isElectron && hasGoogleMapsKey ? (
-              <Map onChange={setCoordinates} />
-            ) : (
-              <LocationInput onChange={setCoordinates} />
-            )}
-
-            {command && (
-              <Box>
-                <h2>
-                  Your <code>exiftool</code> command:
-                </h2>
-                <CommandBox command={command} />
-              </Box>
-            )}
-          </Box>
-        </Box>
-      </Flex>
+      </Grid>
     </ThemeProvider>
   );
 }
