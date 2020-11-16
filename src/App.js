@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "theme-ui";
 import { theme } from "./theme";
 
-import { Box, Grid, Flex } from "theme-ui";
+import { Box, Grid } from "theme-ui";
 
 import {
   existingDateInformation,
@@ -33,7 +33,7 @@ export default function App() {
   const [timeZone, setTimeZone] = useState("-07:00");
   const [coordinates, setCoordinates] = useState();
   const [command, setCommand] = useState(
-    `exiftool "-datetimeoriginal=2020:11:11 12:03:00-05:00" "-CreationDate=2020:11:11 12:03:00-05:00" "-CreateDate=2020:11:11 12:03:00-05:00" "-GPSCoordinates=37.3349543, -122.0138517" "-GPSCoordinates-und-US=37.3349543, -122.0138517" "-GPSLatitude=37.3349543, -122.0138517" "-GPSLongitude=37.3349543, -122.0138517" "-Keys:GPSCoordinates=37.3349543, -122.0138517" "-Keys:GPSCoordinates-und-US=37.3349543, -122.0138517" /Users/trevorharmon/Desktop/yosemite\ 19\ video.mov`
+    `exiftool "-datetimeoriginal=2020:11:11 12:03:00-05:00" "-CreationDate=2020:11:11 12:03:00-05:00" "-CreateDate=2020:11:11 12:03:00-05:00" "-GPSCoordinates=37.3349543, -122.0138517" "-GPSCoordinates-und-US=37.3349543, -122.0138517" "-GPSLatitude=37.3349543, -122.0138517" "-GPSLongitude=37.3349543, -122.0138517" "-Keys:GPSCoordinates=37.3349543, -122.0138517" "-Keys:GPSCoordinates-und-US=37.3349543, -122.0138517" /Users/trevorharmon/Desktop/yosemite 19 video.mov`
   );
 
   useEffect(() => {
