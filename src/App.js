@@ -20,7 +20,6 @@ import {
   TimeZoneDropdown,
   Map,
   CommandBox,
-  SplitButton,
 } from "./components";
 
 import "./App.css";
@@ -32,9 +31,7 @@ export default function App() {
   const [time, setTime] = useState("12:00");
   const [timeZone, setTimeZone] = useState("-07:00");
   const [coordinates, setCoordinates] = useState();
-  const [command, setCommand] = useState(
-    `exiftool "-datetimeoriginal=2020:11:11 12:03:00-05:00" "-CreationDate=2020:11:11 12:03:00-05:00" "-CreateDate=2020:11:11 12:03:00-05:00" "-GPSCoordinates=37.3349543, -122.0138517" "-GPSCoordinates-und-US=37.3349543, -122.0138517" "-GPSLatitude=37.3349543, -122.0138517" "-GPSLongitude=37.3349543, -122.0138517" "-Keys:GPSCoordinates=37.3349543, -122.0138517" "-Keys:GPSCoordinates-und-US=37.3349543, -122.0138517" /Users/trevorharmon/Desktop/yosemite 19 video.mov`
-  );
+  const [command, setCommand] = useState();
 
   useEffect(() => {
     if (
@@ -76,7 +73,6 @@ export default function App() {
 
   const controlPanel = (
     <>
-      <SplitButton command={command}>Run Command</SplitButton>
       <h2>When was this taken?</h2>
       <Grid gap={3} columns={[3, "1fr 1fr 1.2fr"]}>
         <DateInput value={date} onChange={setDate} />

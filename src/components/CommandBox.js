@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { jsx } from "theme-ui";
 
-import { Box, Button, Textarea } from "theme-ui";
+import { Box, Textarea } from "theme-ui";
 
-import { CodeBox } from "./CodeBox";
+import { SplitButton, CodeBox } from "../components";
 
 import { executeCommand, isElectron } from "../utilities";
 
@@ -28,19 +28,16 @@ export function CommandBox({ command }) {
 
   return (
     <Box>
-      <CodeBox code={command} />
-      {isElectron && (
-        <Button
-          variant={isRunningCommand ? "disabled" : "daring"}
-          sx={{
-            width: "100%",
-            mt: 2,
-          }}
+      {isElectron ? (
+        <SplitButton
+          code={command}
           onClick={runCommand}
           disabled={isRunningCommand}
         >
           Run Command
-        </Button>
+        </SplitButton>
+      ) : (
+        <CodeBox code={command} />
       )}
       {commandResult && (
         <Textarea

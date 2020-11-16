@@ -7,7 +7,13 @@ import { CodeBox } from "./CodeBox";
 
 import { ReactComponent as CaretDownIcon } from "../assets/caret-down.svg";
 
-export function SplitButton({ children, color = "black", onClick, command }) {
+export function SplitButton({
+  color = "black",
+  disabled = false,
+  code,
+  children,
+  onClick,
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -15,23 +21,25 @@ export function SplitButton({ children, color = "black", onClick, command }) {
       <Flex>
         <Button
           sx={{
-            backgroundColor: color,
+            backgroundColor: disabled ? "gray" : color,
             flex: "1 1 auto",
             borderBottomRightRadius: 0,
             borderTopRightRadius: 0,
             borderRight: "2px solid white",
           }}
           onClick={onClick}
+          disabled={disabled}
         >
           {children}
         </Button>
         <Button
           sx={{
-            backgroundColor: color,
+            backgroundColor: disabled ? "gray" : color,
             borderBottomLeftRadius: 0,
             borderTopLeftRadius: 0,
           }}
           onClick={() => setIsOpen(!isOpen)}
+          disabled={disabled}
         >
           <Box
             sx={{
@@ -45,7 +53,7 @@ export function SplitButton({ children, color = "black", onClick, command }) {
       </Flex>
       {isOpen && (
         <Box sx={{ mt: 1 }}>
-          <CodeBox code={command} />
+          <CodeBox disabled={disabled} code={code} />
         </Box>
       )}
     </React.Fragment>
