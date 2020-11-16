@@ -23,19 +23,29 @@ export const theme = {
     body: 1.5,
     heading: 1.125,
   },
+  cards: {
+    primary: {
+      background: "white",
+      borderRadius: "20px",
+      padding: 3,
+    },
+  },
   buttons: {
     primary: {
+      fontFamily: "inherit",
       "&:hover": {
         cursor: "pointer",
       },
     },
     daring: {
+      fontFamily: "inherit",
       background: "black",
       "&:hover": {
         cursor: "pointer",
       },
     },
     transparentPrimary: {
+      fontFamily: "inherit",
       background: "primary",
       opacity: 0.7,
       "&:hover": {
@@ -44,6 +54,7 @@ export const theme = {
       },
     },
     disabled: {
+      fontFamily: "inherit",
       background: "gray",
       "&:hover": {
         cursor: "not-allowed",
@@ -52,16 +63,20 @@ export const theme = {
   },
   forms: {
     label: {
+      fontFamily: "inherit",
       fontSize: 2,
-      fontWeight: "bold",
     },
     input: {
+      fontFamily: "inherit",
       mt: 2,
       mb: 3,
     },
+    select: {
+      fontFamily: "inherit",
+    },
   },
   colors: {
-    text: "#000",
+    text: "#2a2a2a",
     background: "#fff",
     primary: "#07c",
     secondary: "#30c",

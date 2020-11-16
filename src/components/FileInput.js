@@ -60,7 +60,7 @@ export function FileInput({
         width: "300px",
         p: 4,
         border: "2px white dashed",
-        borderRadius: "4px",
+        borderRadius: "20px",
         textAlign: "center",
       }}
     >

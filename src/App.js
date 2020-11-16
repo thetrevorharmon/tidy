@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "theme-ui";
 import { theme } from "./theme";
 
-import { Box, Grid } from "theme-ui";
+import { Box, Grid, Heading, Card } from "theme-ui";
 
 import {
   existingDateInformation,
@@ -73,40 +73,54 @@ export default function App() {
 
   const controlPanel = (
     <>
-      <h2>When was this taken?</h2>
-      <Grid gap={3} columns={[3, "1fr 1fr 1.2fr"]}>
-        <DateInput value={date} onChange={setDate} />
-        <TimeInput value={time} onChange={setTime} />
-        <TimeZoneDropdown value={timeZone} onChange={setTimeZone} />
-      </Grid>
+      <Card sx={{ mt: 3 }}>
+        <Heading as="h2" sx={{ mt: 1, mb: 3 }}>
+          When was this taken?
+        </Heading>
+        <Grid gap={3} columns={[2, "1fr 1fr"]}>
+          <DateInput value={date} onChange={setDate} />
+          <TimeInput value={time} onChange={setTime} />
+          <Box sx={{ gridColumn: "1 / span 2" }}>
+            <TimeZoneDropdown value={timeZone} onChange={setTimeZone} />
+          </Box>
+        </Grid>
+      </Card>
 
-      <h2>Where was this taken?</h2>
-      {isElectron && hasGoogleMapsKey ? (
-        <Map onChange={setCoordinates} />
-      ) : (
-        <LocationInput onChange={setCoordinates} />
-      )}
+      <Card sx={{ mt: 3 }}>
+        <Heading as="h2" sx={{ mt: 1, mb: 4 }}>
+          Where was this taken?
+        </Heading>
+        {isElectron && hasGoogleMapsKey ? (
+          <Map onChange={setCoordinates} />
+        ) : (
+          <LocationInput onChange={setCoordinates} />
+        )}
+      </Card>
 
-      {command && (
-        <Box>
-          <h2>
-            Your <code>exiftool</code> command:
-          </h2>
-          <CommandBox command={command} />
-        </Box>
-      )}
+      <Box sx={{ mt: 3 }}>
+        <CommandBox command={command} />
+      </Box>
     </>
   );
 
   return (
     <ThemeProvider theme={theme}>
       <Grid
-        gap={3}
+        gap={0}
         columns={[2, "1fr 500px"]}
         sx={{ height: "100%", overflow: "hidden" }}
       >
         <FileInput onChange={handleFileNameChange} />
-        <Box sx={{ overflow: "scroll", p: 2, pr: 4, pl: 3, pb: 4 }}>
+        <Box
+          sx={{
+            overflow: "scroll",
+            background: "#F1F2F6",
+            pt: 1,
+            pr: 3,
+            pl: 3,
+            pb: 3,
+          }}
+        >
           {controlPanel}
         </Box>
       </Grid>

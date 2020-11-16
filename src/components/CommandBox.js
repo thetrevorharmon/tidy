@@ -32,12 +32,12 @@ export function CommandBox({ command }) {
         <SplitButton
           code={command}
           onClick={runCommand}
-          disabled={isRunningCommand}
+          disabled={isRunningCommand || command == null}
         >
           Run Command
         </SplitButton>
       ) : (
-        <CodeBox code={command} />
+        command != null && <CodeBox code={command} />
       )}
       {commandResult && (
         <Textarea

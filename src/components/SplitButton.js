@@ -20,21 +20,21 @@ export function SplitButton({
     <React.Fragment>
       <Flex>
         <Button
+          variant={disabled ? "disabled" : "primary"}
           sx={{
-            backgroundColor: disabled ? "gray" : color,
             flex: "1 1 auto",
             borderBottomRightRadius: 0,
             borderTopRightRadius: 0,
             borderRight: "2px solid white",
           }}
-          onClick={onClick}
+          onClick={disabled ? null : onClick}
           disabled={disabled}
         >
           {children}
         </Button>
         <Button
+          variant={disabled ? "disabled" : "primary"}
           sx={{
-            backgroundColor: disabled ? "gray" : color,
             borderBottomLeftRadius: 0,
             borderTopLeftRadius: 0,
           }}
