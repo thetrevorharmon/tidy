@@ -4,6 +4,8 @@ import { jsx } from "theme-ui";
 import React, { useRef, useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
+import { ReactComponent as DragAndDropIcon } from "../assets/drag-and-drop.svg";
+
 import { Input, Box, Text, Button } from "theme-ui";
 
 export function FileInput({
@@ -50,28 +52,29 @@ export function FileInput({
   }
 
   const pendingFileMarkup = (
-    <Text
+    <Box
       sx={{
+        background: isDragActive ? "white" : "transparent",
+        color: isDragActive ? "black" : "inherit",
+        boxSizing: "border-box",
+        width: "300px",
+        p: 4,
+        border: "2px white dashed",
+        borderRadius: "4px",
         textAlign: "center",
-        fontSize: 2,
-        fontWeight: "bold",
-        zIndex: 0,
-        position: "relative",
-        background: "white",
       }}
     >
-      {isDragActive ? (
-        <p>Drop the files here ...</p>
-      ) : (
-        <p>Drag a video or image here</p>
-      )}
-    </Text>
+      <DragAndDropIcon color={isDragActive ? "black" : "white"} />
+      <Text sx={{ fontSize: 3, fontWeight: "bold", mt: 3 }}>
+        {isDragActive ? "Now drop it! Do it!" : "Drag a video here"}
+      </Text>
+    </Box>
   );
 
   const activeFileMarkup = (
     <React.Fragment>
       <video
-        style={{ objectFit: "cover" }}
+        style={{ objectFit: "contain" }}
         width="100%"
         height="100%"
         autoPlay
@@ -108,12 +111,13 @@ export function FileInput({
     <Box
       {...rootProps}
       sx={{
-        height: "100%",
+        display: "grid",
+        placeItems: "center",
+        background: "black",
+        color: "white",
         overflow: "hidden",
         position: "relative",
-        borderWidth: "1px",
-        borderRadius: "4px",
-        borderStyle: isDragActive ? "dashed" : "solid",
+        borderRight: "1px solid black",
         py: mediaSrc != null ? 0 : 5,
       }}
     >
