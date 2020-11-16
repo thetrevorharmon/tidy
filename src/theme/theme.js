@@ -35,6 +35,14 @@ export const theme = {
         cursor: "pointer",
       },
     },
+    transparentPrimary: {
+      background: "primary",
+      opacity: 0.7,
+      "&:hover": {
+        opacity: 1.0,
+        cursor: "pointer",
+      },
+    },
     disabled: {
       background: "gray",
       "&:hover": {
